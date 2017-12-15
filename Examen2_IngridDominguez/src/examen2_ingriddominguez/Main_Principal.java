@@ -7,6 +7,7 @@ package examen2_ingriddominguez;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -67,8 +68,8 @@ public class Main_Principal extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_planetas = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_listarPlanetas = new javax.swing.JButton();
+        btn_ListarAstronautas = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jt_astronautas = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
@@ -323,9 +324,19 @@ public class Main_Principal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jt_planetas);
 
-        jButton1.setText("Listar Planetas");
+        btn_listarPlanetas.setText("Listar Planetas");
+        btn_listarPlanetas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_listarPlanetasMouseClicked(evt);
+            }
+        });
 
-        jButton2.setText("Listar Atronautas");
+        btn_ListarAstronautas.setText("Listar Atronautas");
+        btn_ListarAstronautas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ListarAstronautasMouseClicked(evt);
+            }
+        });
 
         jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -345,14 +356,14 @@ public class Main_Principal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_listarPlanetas, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btn_ListarAstronautas, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
@@ -360,11 +371,11 @@ public class Main_Principal extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_listarPlanetas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_ListarAstronautas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -413,21 +424,28 @@ public class Main_Principal extends javax.swing.JFrame {
         int temperatura;
         int distancia;
         try {
-           
-            if(anillosSi.isSelected() == true){
+
+            if (anillosSi.isSelected() == true) {
                 anillos = true;
-            }else if(anillosNo.isSelected() == true){
+            } else if (anillosNo.isSelected() == true) {
                 anillos = false;
             }
-            
+
             nombre = tf_nombrePlaneta.getText();
             superficie = tf_superficie.getText();
             temperatura = (int) jsp_temperatura.getValue();
             distancia = (int) jsp_distancia.getValue();
-            
+
             planetas.add(new Planeta(nombre, temperatura, anillos, superficie, distancia));
+
+            System.out.println(planetas.get(planetas.size() - 1));
             
-            System.out.println(planetas.get( planetas.size() -1 ));
+            tf_nombrePlaneta.setText("");
+            tf_superficie.setText("");
+            jsp_temperatura.setValue(0);
+            jsp_distancia.setValue(0);
+            anillosSi.setSelected(true);
+            JOptionPane.showMessageDialog(this, "Agregado");
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btn_guardarPLanetaMouseClicked
@@ -445,24 +463,94 @@ public class Main_Principal extends javax.swing.JFrame {
         int peso;
         boolean sexo = false;
         try {
-            if(sexoF.isSelected() == true){
+            if (sexoF.isSelected() == true) {
                 sexo = true;
-            }else if(SexoM.isSelected() == true){
+            } else if (SexoM.isSelected() == true) {
                 sexo = false;
             }
-            
+
             nombre = tf_nombreAstronauta.getText();
             experiencia = tf_experiencia.getText();
             nacionalidad = tf_nacionalidad.getText();
             sueldo = Double.parseDouble(tf_sueldo.getText());
             peso = Integer.parseInt(tf_peso.getText());
-            
+
             astronautas.add(new Astronauta(nombre, nacionalidad, sueldo, experiencia, sexo, peso));
-            System.out.println(astronautas.get(astronautas.size()-1));
+            System.out.println(astronautas.get(astronautas.size() - 1));
+            
+            tf_nombreAstronauta.setText("");
+            tf_experiencia.setText("");
+            tf_nacionalidad.setText("");
+            tf_sueldo.setText("");
+            tf_peso.setText("");
+            sexoF.setSelected(true);
+            
+            JOptionPane.showMessageDialog(this, "Agregado");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error!");
+            JOptionPane.showMessageDialog(this, "Error!");
         }
     }//GEN-LAST:event_btn_guardarAstronautaMouseClicked
+
+    private void btn_listarPlanetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_listarPlanetasMouseClicked
+        // TODO add your handling code here:
+        try {
+
+            jt_planetas.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
+                    }
+            ));
+
+            DefaultTableModel model = (DefaultTableModel) jt_planetas.getModel();
+            for (int i = 0; i < planetas.size(); i++) {
+                String anillos = "";
+                if (planetas.get(i).isAnillos() == true) {
+                    anillos = "Si";
+                } else {
+                    anillos = "No";
+                }
+
+                Object newrow[] = {planetas.get(i), planetas.get(i).getTemperatura(),
+                    anillos, planetas.get(i).getSuperficie(), planetas.get(i).getDistancia()};
+
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_planetas.setModel(model);
+
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_listarPlanetasMouseClicked
+
+    private void btn_ListarAstronautasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ListarAstronautasMouseClicked
+        // TODO add your handling code here:
+        try {
+            jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
+                    }
+            ));
+            DefaultTableModel model =( DefaultTableModel) jt_astronautas.getModel();
+            for (int i = 0; i < astronautas.size(); i++) {
+                String sexo = "";
+                if (astronautas.get(i).isSexo() == true) {
+                    sexo = "F";
+                } else {
+                    sexo = "M";
+                }
+
+                Object newrow[] = {astronautas.get(i), astronautas.get(i).getNacionalidad(),
+                    astronautas.get(i).getSueldo(), astronautas.get(i).getExperiencia(),
+                    sexo, astronautas.get(i).getPeso()};
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_astronautas.setModel(model);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_ListarAstronautasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -503,12 +591,12 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JRadioButton SexoM;
     private javax.swing.JRadioButton anillosNo;
     private javax.swing.JRadioButton anillosSi;
+    private javax.swing.JButton btn_ListarAstronautas;
     private javax.swing.JButton btn_guardarAstronauta;
     private javax.swing.JButton btn_guardarPLaneta;
+    private javax.swing.JButton btn_listarPlanetas;
     private javax.swing.ButtonGroup grupo1;
     private javax.swing.ButtonGroup grupo2;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -548,5 +636,5 @@ public class Main_Principal extends javax.swing.JFrame {
     ArrayList<Astronauta> astronautas = new ArrayList();
     ArrayList<SondaEspacial> naves1 = new ArrayList();
     ArrayList<Tripulada> naves2 = new ArrayList();
-    
+
 }
