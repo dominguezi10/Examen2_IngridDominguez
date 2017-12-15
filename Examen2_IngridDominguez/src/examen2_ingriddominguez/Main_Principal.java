@@ -34,6 +34,9 @@ public class Main_Principal extends javax.swing.JFrame {
 
         grupo1 = new javax.swing.ButtonGroup();
         grupo2 = new javax.swing.ButtonGroup();
+        pop_opciones = new javax.swing.JPopupMenu();
+        jmi_modificar = new javax.swing.JMenuItem();
+        jmi_elimina = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jp_planeta = new javax.swing.JPanel();
@@ -99,13 +102,23 @@ public class Main_Principal extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jcb_naveExpedicion = new javax.swing.JComboBox<>();
-        jLabel26 = new javax.swing.JLabel();
-        jcb_planetaExpedicion = new javax.swing.JComboBox<>();
         btn_Iniciar = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         jpb_ida = new javax.swing.JProgressBar();
         jLabel28 = new javax.swing.JLabel();
         jpb_regreso = new javax.swing.JProgressBar();
+
+        jmi_modificar.setText("jMenuItem1");
+        pop_opciones.add(jmi_modificar);
+
+        jmi_elimina.setText("Eliminar");
+        jmi_elimina.setToolTipText("");
+        jmi_elimina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminaActionPerformed(evt);
+            }
+        });
+        pop_opciones.add(jmi_elimina);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -442,6 +455,11 @@ public class Main_Principal extends javax.swing.JFrame {
                 "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
             }
         ));
+        jt_planetas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_planetasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jt_planetas);
 
         btn_listarPlanetas.setText("Listar Planetas");
@@ -514,11 +532,6 @@ public class Main_Principal extends javax.swing.JFrame {
 
         jPanel5.add(jcb_naveExpedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 53, 146, 33));
 
-        jLabel26.setText("Planeta");
-        jPanel5.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 53, 66, 33));
-
-        jPanel5.add(jcb_planetaExpedicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(379, 53, 172, 33));
-
         btn_Iniciar.setText("Iniciar");
         btn_Iniciar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -557,50 +570,201 @@ public class Main_Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_guardarPLanetaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarPLanetaMouseClicked
+    private void btn_IniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IniciarMouseClicked
         // TODO add your handling code here:
-        String nombre;
-        String superficie;
-        boolean anillos = false;
-        int temperatura;
-        int distancia;
         try {
+            // expedicion.setAvanzar(false);
 
-            if (anillosSi.isSelected() == true) {
-                anillos = true;
-            } else if (anillosNo.isSelected() == true) {
-                anillos = false;
+            Nave nave = (Nave) jcb_naveExpedicion.getSelectedItem();
+            double ida = 0;
+            double regreso = 0;
+            if (nave instanceof SondaEspacial) {
+                ida = (((SondaEspacial) nave).polimorfo()[0] * 1000);
+                regreso = (((SondaEspacial) nave).polimorfo()[1] * 1000);
+            } else if (nave instanceof Tripulada) {
+                ida = (((Tripulada) nave).polimorfo()[0] * 1000);
+                regreso = (((Tripulada) nave).polimorfo()[1] * 1000);
             }
 
-            nombre = tf_nombrePlaneta.getText();
-            superficie = tf_superficie.getText();
-            temperatura = (int) jsp_temperatura.getValue();
-            distancia = (int) jsp_distancia.getValue();
+            jpb_ida.setValue(0);
+            jpb_regreso.setValue(0);
+            jpb_ida.setMaximum((int) ida);
+            jpb_regreso.setMaximum((int) regreso);
 
-            planetas.add(new Planeta(nombre, temperatura, anillos, superficie, distancia));
-            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_planeta.getModel();
-            modelo.addElement(planetas.get(planetas.size() - 1));
-            jcb_planeta.setModel(modelo);
+            Expedicion expedicion = new Expedicion(true, true, jpb_ida, jpb_regreso, (int) ida, (int) regreso, this);
+            System.out.println(ida + " r " + regreso);
 
-            DefaultComboBoxModel modelo2 = (DefaultComboBoxModel) jcb_planetaExpedicion.getModel();
-            modelo2.addElement(planetas.get(planetas.size() - 1));
-            jcb_planetaExpedicion.setModel(modelo2);
+            Thread proceso = new Thread(expedicion);
+            proceso.start();
 
-            System.out.println(planetas.get(planetas.size() - 1));
+            System.out.println("este es ida " + ida + "\nregreso " + regreso);
 
-            tf_nombrePlaneta.setText("");
-            tf_superficie.setText("");
-            jsp_temperatura.setValue(0);
-            jsp_distancia.setValue(0);
-            anillosSi.setSelected(true);
-            JOptionPane.showMessageDialog(this, "Agregado");
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_btn_guardarPLanetaMouseClicked
+    }//GEN-LAST:event_btn_IniciarMouseClicked
 
-    private void tf_experienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_experienciaActionPerformed
+    private void btn_ListarAstronautasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ListarAstronautasMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tf_experienciaActionPerformed
+        try {
+            jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
+                }
+            ));
+            DefaultTableModel model = (DefaultTableModel) jt_astronautas.getModel();
+            for (int i = 0; i < astronautas.size(); i++) {
+                String sexo = "";
+                if (astronautas.get(i).isSexo() == true) {
+                    sexo = "F";
+                } else {
+                    sexo = "M";
+                }
+
+                Object newrow[] = {astronautas.get(i), astronautas.get(i).getNacionalidad(),
+                    astronautas.get(i).getSueldo(), astronautas.get(i).getExperiencia(),
+                    sexo, astronautas.get(i).getPeso()};
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_astronautas.setModel(model);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_ListarAstronautasMouseClicked
+
+    private void btn_listarPlanetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_listarPlanetasMouseClicked
+        // TODO add your handling code here:
+        try {
+
+            jt_planetas.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
+                }
+            ));
+
+            DefaultTableModel model = (DefaultTableModel) jt_planetas.getModel();
+            for (int i = 0; i < planetas.size(); i++) {
+                String anillos = "";
+                if (planetas.get(i).isAnillos() == true) {
+                    anillos = "Si";
+                } else {
+                    anillos = "No";
+                }
+
+                Object newrow[] = {planetas.get(i), planetas.get(i).getTemperatura(),
+                    anillos, planetas.get(i).getSuperficie(), planetas.get(i).getDistancia()};
+
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_planetas.setModel(model);
+
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_listarPlanetasMouseClicked
+
+    private void jt_planetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_planetasMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1 && evt.isMetaDown()) {
+            int este = jt_planetas.getSelectedRow();
+            if (este >= 0) {
+                pop_opciones.show(evt.getComponent(), evt.getX(), evt.getY());
+
+            }
+        }
+    }//GEN-LAST:event_jt_planetasMouseClicked
+
+    private void btn_tripuladaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_tripuladaMouseClicked
+        // TODO add your handling code here:
+        try {
+            int serie;
+            Planeta planeta;
+            int velocidad;
+            String lugarDespeje;
+
+            lugarDespeje = tf_lugarDespeje.getText();
+            serie = Integer.parseInt(tf_serie.getText());
+            planeta = (Planeta) jcb_planeta.getSelectedItem();
+            velocidad = (int) jsp_velocidad.getValue();
+
+            tripuladas.add(new Tripulada(lugarDespeje, serie, planeta, velocidad));
+            tripuladas.get(tripuladas.size() - 1).setAstronautas(temporales);
+
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_naveExpedicion.getModel();
+            modelo.addElement(tripuladas.get(tripuladas.size() - 1));
+            jcb_naveExpedicion.setModel(modelo);
+
+            System.out.println(tripuladas.get(tripuladas.size() - 1));
+
+            temporales = new ArrayList();
+            jcb_astronautas.setModel(new DefaultComboBoxModel());
+
+            tf_lugarDespeje.setText("");
+            tf_serie.setText("");
+            jsp_velocidad.setValue(0);
+
+            JOptionPane.showMessageDialog(this, "Agregado");
+
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_tripuladaMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        try {
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_asAgregados.getModel();
+            modelo.addElement(jcb_astronautas.getSelectedItem());
+            jcb_asAgregados.setModel(modelo);
+
+            temporales.add((Astronauta) jcb_astronautas.getSelectedItem());
+
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void tf_lugarDespejeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_lugarDespejeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_lugarDespejeActionPerformed
+
+    private void btn_sondaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_sondaMouseClicked
+        // TODO add your handling code here:
+        try {
+            int serie;
+            Planeta planeta;
+            int velocidad;
+            String material;
+            int peso;
+
+            serie = Integer.parseInt("" + tf_serie.getText());
+            planeta = (Planeta) jcb_planeta.getSelectedItem();
+            velocidad = (int) jsp_velocidad.getValue();
+            material = tf_material.getText();
+            peso = (int) jsp_peso.getValue();
+
+            sondasEspacials.add(new SondaEspacial(material, peso, serie, planeta, velocidad));
+
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_naveExpedicion.getModel();
+            modelo.addElement(sondasEspacials.get(sondasEspacials.size() - 1));
+            jcb_naveExpedicion.setModel(modelo);
+
+            System.out.println(sondasEspacials.get(sondasEspacials.size() - 1));
+
+            tf_serie.setText("");
+            jsp_velocidad.setValue(0);
+            tf_material.setText("");
+            jsp_peso.setValue(0);
+            JOptionPane.showMessageDialog(this, "Agregado");
+
+        } catch (Exception e) {
+            // e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_sondaMouseClicked
+
+    private void tf_materialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_materialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tf_materialActionPerformed
 
     private void btn_guardarAstronautaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarAstronautaMouseClicked
         // TODO add your handling code here:
@@ -643,15 +807,64 @@ public class Main_Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_guardarAstronautaMouseClicked
 
-    private void btn_listarPlanetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_listarPlanetasMouseClicked
+    private void tf_experienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_experienciaActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_tf_experienciaActionPerformed
+
+    private void btn_guardarPLanetaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_guardarPLanetaMouseClicked
+        // TODO add your handling code here:
+        String nombre;
+        String superficie;
+        boolean anillos = false;
+        int temperatura;
+        int distancia;
         try {
 
+            if (anillosSi.isSelected() == true) {
+                anillos = true;
+            } else if (anillosNo.isSelected() == true) {
+                anillos = false;
+            }
+
+            nombre = tf_nombrePlaneta.getText();
+            superficie = tf_superficie.getText();
+            temperatura = (int) jsp_temperatura.getValue();
+            distancia = (int) jsp_distancia.getValue();
+
+            planetas.add(new Planeta(nombre, temperatura, anillos, superficie, distancia));
+            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_planeta.getModel();
+            modelo.addElement(planetas.get(planetas.size() - 1));
+            jcb_planeta.setModel(modelo);
+
+           
+
+            System.out.println(planetas.get(planetas.size() - 1));
+
+            tf_nombrePlaneta.setText("");
+            tf_superficie.setText("");
+            jsp_temperatura.setValue(0);
+            jsp_distancia.setValue(0);
+            anillosSi.setSelected(true);
+            JOptionPane.showMessageDialog(this, "Agregado");
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btn_guardarPLanetaMouseClicked
+
+    private void jmi_eliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminaActionPerformed
+        // TODO add your handling code here:
+         try {
+             int este = jt_planetas.getSelectedRow();
+             
+             planetas.remove(este);
+             DefaultComboBoxModel modelO = (DefaultComboBoxModel) jcb_planeta.getModel();
+             modelO.removeElementAt(este);
+             jcb_planeta.setModel(modelO);
+             
             jt_planetas.setModel(new javax.swing.table.DefaultTableModel(
-                    new Object[][]{},
-                    new String[]{
-                        "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
-                    }
+                new Object[][]{},
+                new String[]{
+                    "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
+                }
             ));
 
             DefaultTableModel model = (DefaultTableModel) jt_planetas.getModel();
@@ -673,158 +886,7 @@ public class Main_Principal extends javax.swing.JFrame {
 
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_btn_listarPlanetasMouseClicked
-
-    private void btn_ListarAstronautasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ListarAstronautasMouseClicked
-        // TODO add your handling code here:
-        try {
-            jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
-                    new Object[][]{},
-                    new String[]{
-                        "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
-                    }
-            ));
-            DefaultTableModel model = (DefaultTableModel) jt_astronautas.getModel();
-            for (int i = 0; i < astronautas.size(); i++) {
-                String sexo = "";
-                if (astronautas.get(i).isSexo() == true) {
-                    sexo = "F";
-                } else {
-                    sexo = "M";
-                }
-
-                Object newrow[] = {astronautas.get(i), astronautas.get(i).getNacionalidad(),
-                    astronautas.get(i).getSueldo(), astronautas.get(i).getExperiencia(),
-                    sexo, astronautas.get(i).getPeso()};
-                model.addRow(newrow);
-            }// fin del for
-
-            jt_astronautas.setModel(model);
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_btn_ListarAstronautasMouseClicked
-
-    private void tf_materialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_materialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_materialActionPerformed
-
-    private void tf_lugarDespejeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_lugarDespejeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_lugarDespejeActionPerformed
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-        try {
-            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_asAgregados.getModel();
-            modelo.addElement(jcb_astronautas.getSelectedItem());
-            jcb_asAgregados.setModel(modelo);
-
-            temporales.add((Astronauta) jcb_astronautas.getSelectedItem());
-
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void btn_sondaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_sondaMouseClicked
-        // TODO add your handling code here:
-        try {
-            int serie;
-            Planeta planeta;
-            int velocidad;
-            String material;
-            int peso;
-
-            serie = Integer.parseInt("" + tf_serie.getText());
-            planeta = (Planeta) jcb_planeta.getSelectedItem();
-            velocidad = (int) jsp_velocidad.getValue();
-            material = tf_material.getText();
-            peso = (int) jsp_peso.getValue();
-
-            sondasEspacials.add(new SondaEspacial(material, peso, serie, planeta, velocidad));
-
-            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_naveExpedicion.getModel();
-            modelo.addElement(sondasEspacials.get(sondasEspacials.size() - 1));
-            jcb_naveExpedicion.setModel(modelo);
-
-            System.out.println(sondasEspacials.get(sondasEspacials.size() - 1));
-
-            tf_serie.setText("");
-            jsp_velocidad.setValue(0);
-            tf_material.setText("");
-            jsp_peso.setValue(0);
-            JOptionPane.showMessageDialog(this, "Agregado");
-
-        } catch (Exception e) {
-            // e.printStackTrace();
-        }
-    }//GEN-LAST:event_btn_sondaMouseClicked
-
-    private void btn_tripuladaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_tripuladaMouseClicked
-        // TODO add your handling code here:
-        try {
-            int serie;
-            Planeta planeta;
-            int velocidad;
-            String lugarDespeje;
-
-            lugarDespeje = tf_lugarDespeje.getText();
-            serie = Integer.parseInt(tf_serie.getText());
-            planeta = (Planeta) jcb_planeta.getSelectedItem();
-            velocidad = (int) jsp_velocidad.getValue();
-
-            tripuladas.add(new Tripulada(lugarDespeje, serie, planeta, velocidad));
-            tripuladas.get(tripuladas.size() - 1).setAstronautas(temporales);
-
-            DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_naveExpedicion.getModel();
-            modelo.addElement(tripuladas.get(tripuladas.size() - 1));
-            jcb_naveExpedicion.setModel(modelo);
-
-            System.out.println(tripuladas.get(tripuladas.size() - 1));
-
-            temporales = new ArrayList();
-            jcb_astronautas.setModel(new DefaultComboBoxModel());
-
-            tf_lugarDespeje.setText("");
-            tf_serie.setText("");
-            jsp_velocidad.setValue(0);
-
-            JOptionPane.showMessageDialog(this, "Agregado");
-
-        } catch (Exception e) {
-            // e.printStackTrace();
-        }
-    }//GEN-LAST:event_btn_tripuladaMouseClicked
-
-    private void btn_IniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_IniciarMouseClicked
-        // TODO add your handling code here:
-        try {
-           // expedicion.setAvanzar(false);
-            
-            Nave nave = (Nave) jcb_naveExpedicion.getSelectedItem();
-            double ida = 0;
-            double regreso = 0;
-            if (nave instanceof SondaEspacial) {
-                ida = (( (SondaEspacial)nave).polimorfo()[0] * 1000);
-                regreso = (( (SondaEspacial)nave).polimorfo()[1] * 1000);
-            }else if(nave instanceof Tripulada){
-                ida = (( (Tripulada)nave).polimorfo()[0] * 1000);
-                regreso = (( (Tripulada)nave).polimorfo()[1] * 1000);
-            }
-
-            jpb_ida.setMaximum((int) ida);
-            jpb_regreso.setMaximum((int) regreso);
-
-            Expedicion expedicion = new Expedicion(true, true, jpb_ida, jpb_regreso, (int) ida, (int) regreso);
-            System.out.println(ida + " r " + regreso);
-
-            Thread proceso = new Thread(expedicion);
-            proceso.start();
-
-            System.out.println("este es ida " + ida + "\nregreso " + regreso);
-
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_btn_IniciarMouseClicked
+    }//GEN-LAST:event_jmi_eliminaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -893,7 +955,6 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
@@ -915,7 +976,8 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_astronautas;
     private javax.swing.JComboBox<String> jcb_naveExpedicion;
     private javax.swing.JComboBox<String> jcb_planeta;
-    private javax.swing.JComboBox<String> jcb_planetaExpedicion;
+    private javax.swing.JMenuItem jmi_elimina;
+    private javax.swing.JMenuItem jmi_modificar;
     private javax.swing.JPanel jp_planeta;
     private javax.swing.JProgressBar jpb_ida;
     private javax.swing.JProgressBar jpb_regreso;
@@ -925,6 +987,7 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner jsp_velocidad;
     private javax.swing.JTable jt_astronautas;
     private javax.swing.JTable jt_planetas;
+    private javax.swing.JPopupMenu pop_opciones;
     private javax.swing.JRadioButton sexoF;
     private javax.swing.JTextField tf_experiencia;
     private javax.swing.JTextField tf_lugarDespeje;
@@ -945,5 +1008,5 @@ public class Main_Principal extends javax.swing.JFrame {
 
     ///
     ArrayList<Astronauta> temporales = new ArrayList();
-  //  Expedicion expedicion;
+    //  Expedicion expedicion;
 }

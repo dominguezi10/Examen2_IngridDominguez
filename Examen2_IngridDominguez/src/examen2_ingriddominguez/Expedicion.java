@@ -6,6 +6,7 @@
 package examen2_ingriddominguez;
 
 import java.io.Serializable;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
@@ -20,6 +21,7 @@ public class Expedicion implements Runnable, Serializable {
     private boolean vivir;
     private JProgressBar ida;
     private JProgressBar regreso;
+    private JFrame este;
 
     private int recorrer;
     private int elregreso;
@@ -27,13 +29,14 @@ public class Expedicion implements Runnable, Serializable {
     public Expedicion() {
     }
 
-    public Expedicion(boolean avanzar, boolean vivir, JProgressBar ida, JProgressBar regreso, int recorrer, int elregreso) {
+    public Expedicion(boolean avanzar, boolean vivir, JProgressBar ida, JProgressBar regreso, int recorrer, int elregreso, JFrame este) {
         this.avanzar = avanzar;
         this.vivir = vivir;
         this.ida = ida;
         this.regreso = regreso;
         this.recorrer = recorrer;
         this.elregreso = elregreso;
+        this.este = este;
     }
 
     
@@ -100,17 +103,17 @@ public class Expedicion implements Runnable, Serializable {
                     cont++;
                 }else{
                     regreso.setValue(segundo +20);
-                    segundo++;
+                    segundo= segundo +20;
                     System.out.println("entres "+regreso.getValue());
                     if(segundo == elregreso){
                         avanzar = false;
-                        JOptionPane.showMessageDialog(null, "Llego");
+                        JOptionPane.showMessageDialog(este, "Llego");
                     }
                 }
 
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     // Logger.getLogger(HiloLLuvia.class.getName()).log(Level.SEVERE, null, ex);
                 }
