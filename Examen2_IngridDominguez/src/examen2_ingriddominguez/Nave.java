@@ -56,6 +56,6 @@ public abstract class Nave implements Serializable {
     }
     
     
-    public abstract int [] polimorfo();
+    public abstract double [] polimorfo();
     
 }

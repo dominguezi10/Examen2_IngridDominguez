@@ -50,14 +50,14 @@ public class SondaEspacial extends Nave{
     
     
     @Override
-    public int[] polimorfo() {
+    public double[] polimorfo() {
         // primero sera ida 
         // segundo sera regreso
-        int [] velocidades = new int[2];
-        int distancia = super.getPlanetaDestino().getDistancia();
+        double [] velocidades = new double[2];
+        double distancia = super.getPlanetaDestino().getDistancia();
         
-        int ida = (distancia / super.getVelocidad());
-        int regreso = (int) ( 9.8 * ida  );
+        double ida = (distancia / super.getVelocidad());
+        double regreso = ( 9.8 * ida  );
         
         velocidades[0] = ida;
         velocidades[1] = regreso;

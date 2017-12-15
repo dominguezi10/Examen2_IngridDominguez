@@ -46,20 +46,20 @@ public class Tripulada extends Nave {
     }
 
     @Override
-    public int[] polimorfo() {
+    public double[] polimorfo() {
         // primero sera ida 
         // segundo sera regreso
-        int[] velocidades = new int[2];
-        int distancia = super.getPlanetaDestino().getDistancia();
-        int pesos = 0;
+        double[] velocidades = new double[2];
+        double distancia = super.getPlanetaDestino().getDistancia();
+        double pesos = 0;
         for (int i = 0; i < astronautas.size(); i++) {
             pesos  += astronautas.get(i).getPeso();
         }
         
-        int peso1 = (pesos * pesos);
+        double peso1 = (pesos * pesos);
         
-        int ida = (distancia / (super.getVelocidad() *( peso1/ 100)  ));
-        int regreso = ( distancia / ( super.getVelocidad() * pesos ));
+        double ida = (distancia / (super.getVelocidad() *( peso1/ 100)  ));
+        double regreso = ( distancia / ( super.getVelocidad() * pesos ));
 
         velocidades[0] = ida;
         velocidades[1] = regreso;

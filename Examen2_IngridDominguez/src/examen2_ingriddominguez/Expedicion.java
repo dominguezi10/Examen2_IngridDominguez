@@ -6,6 +6,8 @@
 package examen2_ingriddominguez;
 
 import java.io.Serializable;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -16,8 +18,58 @@ public class Expedicion implements Runnable, Serializable {
     private static final long SerialVersionUID = 777L;
     private boolean avanzar;
     private boolean vivir;
+    private JProgressBar ida;
+    private JProgressBar regreso;
+
+    private int recorrer;
+    private int elregreso;
 
     public Expedicion() {
+    }
+
+    public Expedicion(boolean avanzar, boolean vivir, JProgressBar ida, JProgressBar regreso, int recorrer, int elregreso) {
+        this.avanzar = avanzar;
+        this.vivir = vivir;
+        this.ida = ida;
+        this.regreso = regreso;
+        this.recorrer = recorrer;
+        this.elregreso = elregreso;
+    }
+
+    
+    
+    public int getElregreso() {
+        return elregreso;
+    }
+
+    public void setElregreso(int elregreso) {
+        this.elregreso = elregreso;
+    }
+
+    
+
+    public JProgressBar getIda() {
+        return ida;
+    }
+
+    public void setIda(JProgressBar ida) {
+        this.ida = ida;
+    }
+
+    public JProgressBar getRegreso() {
+        return regreso;
+    }
+
+    public void setRegreso(JProgressBar regreso) {
+        this.regreso = regreso;
+    }
+
+    public int getRecorrer() {
+        return recorrer;
+    }
+
+    public void setRecorrer(int recorrer) {
+        this.recorrer = recorrer;
     }
 
     public boolean isAvanzar() {
@@ -35,20 +87,36 @@ public class Expedicion implements Runnable, Serializable {
     public void setVivir(boolean vivir) {
         this.vivir = vivir;
     }
-    
-    
 
     @Override
     public void run() {
         while (avanzar == true) {
+            int cont = 0;
+            int segundo = 0;
             while (vivir == true) {
+
+                if (cont < recorrer) {
+                    ida.setValue(cont + 20);
+                    cont++;
+                }else{
+                    regreso.setValue(segundo +20);
+                    segundo++;
+                    System.out.println("entres "+regreso.getValue());
+                    if(segundo == elregreso){
+                        avanzar = false;
+                        JOptionPane.showMessageDialog(null, "Llego");
+                    }
+                }
+
 
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
-                   // Logger.getLogger(HiloLLuvia.class.getName()).log(Level.SEVERE, null, ex);
+                    // Logger.getLogger(HiloLLuvia.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+                
+                
+            }// fin del vivi
 
         }// fin de avanzar
     }
