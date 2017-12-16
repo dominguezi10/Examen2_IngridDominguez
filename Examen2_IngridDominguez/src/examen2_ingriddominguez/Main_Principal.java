@@ -7,6 +7,7 @@ package examen2_ingriddominguez;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,6 +52,7 @@ public class Main_Principal extends javax.swing.JFrame {
         jmi_experiencia = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
         jp_planeta = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -119,6 +121,9 @@ public class Main_Principal extends javax.swing.JFrame {
         jpb_ida = new javax.swing.JProgressBar();
         jLabel28 = new javax.swing.JLabel();
         jpb_regreso = new javax.swing.JProgressBar();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jmi_elimina.setText("Eliminar");
         jmi_elimina.setToolTipText("");
@@ -219,18 +224,27 @@ public class Main_Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel26.setText("Bienvenido!!!");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 583, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(119, 119, 119)
+                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 427, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Archivo", jPanel1);
+        jTabbedPane1.addTab("Inicio", jPanel1);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Crear Planeta");
@@ -329,7 +343,7 @@ public class Main_Principal extends javax.swing.JFrame {
                 .addGroup(jp_planetaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jsp_distancia, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(btn_guardarPLaneta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44))
         );
@@ -449,7 +463,7 @@ public class Main_Principal extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tf_peso, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(btn_guardarAstronauta, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -618,7 +632,7 @@ public class Main_Principal extends javax.swing.JFrame {
                 .addComponent(btn_ListarAstronautas, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ver", jPanel4);
@@ -651,6 +665,20 @@ public class Main_Principal extends javax.swing.JFrame {
         jPanel5.add(jpb_regreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 430, 30));
 
         jTabbedPane1.addTab("Expedicion", jPanel5);
+
+        jMenu3.setText("Archivo");
+
+        jMenuItem1.setText("Guardar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -923,6 +951,8 @@ public class Main_Principal extends javax.swing.JFrame {
             astronautas.add(new Astronauta(nombre, nacionalidad, sueldo, experiencia, sexo, peso));
             DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_astronautas.getModel();
             modelo.addElement(astronautas.get(astronautas.size() - 1));
+            
+            todo.add(astronautas.get(astronautas.size() - 1));
             jcb_astronautas.setModel(modelo);
 
             System.out.println(astronautas.get(astronautas.size() - 1));
@@ -967,6 +997,8 @@ public class Main_Principal extends javax.swing.JFrame {
             planetas.add(new Planeta(nombre, temperatura, anillos, superficie, distancia));
             DefaultComboBoxModel modelo = (DefaultComboBoxModel) jcb_planeta.getModel();
             modelo.addElement(planetas.get(planetas.size() - 1));
+            
+            todo.add(planetas.get(planetas.size() - 1));
             jcb_planeta.setModel(modelo);
 
             System.out.println(planetas.get(planetas.size() - 1));
@@ -1183,6 +1215,22 @@ public class Main_Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmi_distanciaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        try {
+           JFileChooser jfc = new JFileChooser();
+            int seleccion = jfc.showSaveDialog(this); //finciona
+
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                administrador a = new administrador(jfc.getSelectedFile().getPath()+".idm");
+                a.cargar();
+                JOptionPane.showMessageDialog(this, "Guardado");
+            }
+            
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     public void cargar(){
          try {
             
@@ -1280,6 +1328,7 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
@@ -1291,6 +1340,9 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1345,5 +1397,7 @@ public class Main_Principal extends javax.swing.JFrame {
 
     ///
     ArrayList<Astronauta> temporales = new ArrayList();
+    
+    ArrayList<Object> todo = new ArrayList();
     //  Expedicion expedicion;
 }
