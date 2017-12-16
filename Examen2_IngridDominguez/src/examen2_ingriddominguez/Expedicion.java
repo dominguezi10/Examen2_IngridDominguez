@@ -104,10 +104,13 @@ public class Expedicion implements Runnable, Serializable {
                 }else{
                     regreso.setValue(segundo +20);
                     segundo= segundo +20;
-                    System.out.println("entres "+regreso.getValue());
-                    if(segundo == elregreso){
+                   // System.out.println("entres "+regreso.getValue());
+                    if(segundo >= elregreso){
                         avanzar = false;
+                        vivir = false;
+                        System.out.println("salio");
                         JOptionPane.showMessageDialog(este, "Llego");
+                        
                     }
                 }
 

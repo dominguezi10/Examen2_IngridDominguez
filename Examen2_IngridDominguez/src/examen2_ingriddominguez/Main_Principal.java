@@ -35,11 +35,20 @@ public class Main_Principal extends javax.swing.JFrame {
         grupo1 = new javax.swing.ButtonGroup();
         grupo2 = new javax.swing.ButtonGroup();
         pop_opciones = new javax.swing.JPopupMenu();
-        jmi_modificar = new javax.swing.JMenuItem();
         jmi_elimina = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jmi_nombreP = new javax.swing.JMenuItem();
+        jmi_temperatura = new javax.swing.JMenuItem();
+        jmi_superficie = new javax.swing.JMenuItem();
+        jmi_distancia = new javax.swing.JMenuItem();
         pop_opcionesA = new javax.swing.JPopupMenu();
-        jmi_modificarA = new javax.swing.JMenuItem();
         jmi_EliminarA = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jmi_nombre = new javax.swing.JMenuItem();
+        jmi_nacionalidad = new javax.swing.JMenuItem();
+        jmi_sueldo = new javax.swing.JMenuItem();
+        jmi_peso = new javax.swing.JMenuItem();
+        jmi_experiencia = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jp_planeta = new javax.swing.JPanel();
@@ -111,9 +120,6 @@ public class Main_Principal extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jpb_regreso = new javax.swing.JProgressBar();
 
-        jmi_modificar.setText("modificar");
-        pop_opciones.add(jmi_modificar);
-
         jmi_elimina.setText("Eliminar");
         jmi_elimina.setToolTipText("");
         jmi_elimina.addActionListener(new java.awt.event.ActionListener() {
@@ -123,8 +129,41 @@ public class Main_Principal extends javax.swing.JFrame {
         });
         pop_opciones.add(jmi_elimina);
 
-        jmi_modificarA.setText("Modificar");
-        pop_opcionesA.add(jmi_modificarA);
+        jMenu2.setText("Modificar");
+
+        jmi_nombreP.setText("Nombre");
+        jmi_nombreP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_nombrePActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmi_nombreP);
+
+        jmi_temperatura.setText("Temperatura");
+        jmi_temperatura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_temperaturaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmi_temperatura);
+
+        jmi_superficie.setText("Superficie");
+        jmi_superficie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_superficieActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmi_superficie);
+
+        jmi_distancia.setText("Distancia");
+        jmi_distancia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_distanciaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmi_distancia);
+
+        pop_opciones.add(jMenu2);
 
         jmi_EliminarA.setText("Eliminar");
         jmi_EliminarA.addActionListener(new java.awt.event.ActionListener() {
@@ -133,6 +172,50 @@ public class Main_Principal extends javax.swing.JFrame {
             }
         });
         pop_opcionesA.add(jmi_EliminarA);
+
+        jMenu1.setText("MODIFICAR");
+
+        jmi_nombre.setText("Nombre");
+        jmi_nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_nombreActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_nombre);
+
+        jmi_nacionalidad.setText("Nacionalidad");
+        jmi_nacionalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_nacionalidadActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_nacionalidad);
+
+        jmi_sueldo.setText("Sueldo");
+        jmi_sueldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_sueldoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_sueldo);
+
+        jmi_peso.setText("Peso");
+        jmi_peso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_pesoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_peso);
+
+        jmi_experiencia.setText("Experiencia");
+        jmi_experiencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_experienciaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmi_experiencia);
+
+        pop_opcionesA.add(jMenu1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -683,6 +766,37 @@ public class Main_Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_listarPlanetasMouseClicked
 
+    public void cargarp(){
+         try {
+
+            jt_planetas.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
+                    }
+            ));
+
+            DefaultTableModel model = (DefaultTableModel) jt_planetas.getModel();
+            for (int i = 0; i < planetas.size(); i++) {
+                String anillos = "";
+                if (planetas.get(i).isAnillos() == true) {
+                    anillos = "Si";
+                } else {
+                    anillos = "No";
+                }
+
+                Object newrow[] = {planetas.get(i), planetas.get(i).getTemperatura(),
+                    anillos, planetas.get(i).getSuperficie(), planetas.get(i).getDistancia()};
+
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_planetas.setModel(model);
+
+        } catch (Exception e) {
+        }
+    }
+    
     private void jt_planetasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_planetasMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 1 && evt.isMetaDown()) {
@@ -952,6 +1066,153 @@ public class Main_Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmi_EliminarAActionPerformed
 
+    private void jmi_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nombreActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_astronautas.getSelectedRow();
+            Astronauta a = (Astronauta) jt_astronautas.getValueAt(este, 0);
+            
+            astronautas.get(este).setNombre(JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre"));
+            cargar();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_nombreActionPerformed
+
+    private void jmi_nacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nacionalidadActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_astronautas.getSelectedRow();
+            Astronauta a = (Astronauta) jt_astronautas.getValueAt(este, 0);
+            
+            astronautas.get(este).setNacionalidad(JOptionPane.showInputDialog(this, "Ingrese la nueva nacionalidad"));
+            cargar();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_nacionalidadActionPerformed
+
+    private void jmi_sueldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_sueldoActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_astronautas.getSelectedRow();
+            Astronauta a = (Astronauta) jt_astronautas.getValueAt(este, 0);
+            
+            astronautas.get(este).setSueldo(Double.parseDouble(JOptionPane.showInputDialog(this, "Ingrese el nuevo sueldo")));
+            cargar();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_sueldoActionPerformed
+
+    private void jmi_pesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_pesoActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_astronautas.getSelectedRow();
+            Astronauta a = (Astronauta) jt_astronautas.getValueAt(este, 0);
+            
+            astronautas.get(este).setPeso(Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el nuevo peso")));
+            cargar();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_pesoActionPerformed
+
+    private void jmi_experienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_experienciaActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_astronautas.getSelectedRow();
+            Astronauta a = (Astronauta) jt_astronautas.getValueAt(este, 0);
+            
+            astronautas.get(este).setExperiencia(JOptionPane.showInputDialog(this, "Ingrese la experiencia: "));
+            cargar();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_experienciaActionPerformed
+
+    private void jmi_nombrePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_nombrePActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_planetas.getSelectedRow();
+            Planeta a = (Planeta) jt_planetas.getValueAt(este, 0);
+            
+            planetas.get(este).setNombre(JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre: "));
+            cargarp();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_nombrePActionPerformed
+
+    private void jmi_temperaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_temperaturaActionPerformed
+        // TODO add your handling code here:
+         try {
+            int este = jt_planetas.getSelectedRow();
+            Planeta a = (Planeta) jt_planetas.getValueAt(este, 0);
+            
+            planetas.get(este).setTemperatura(Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la nueva temperatura: ")));
+            cargarp();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_temperaturaActionPerformed
+
+    private void jmi_superficieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_superficieActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_planetas.getSelectedRow();
+            Planeta a = (Planeta) jt_planetas.getValueAt(este, 0);
+            
+            planetas.get(este).setSuperficie(JOptionPane.showInputDialog(this, "Ingrese la nueva superficie "));
+            cargarp();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_superficieActionPerformed
+
+    private void jmi_distanciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_distanciaActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_planetas.getSelectedRow();
+            Planeta a = (Planeta) jt_planetas.getValueAt(este, 0);
+            
+            planetas.get(este).setDistancia(Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la nueva distancia: ")));
+            cargarp();
+            System.out.println(a.toString());
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_distanciaActionPerformed
+
+    public void cargar(){
+         try {
+            
+           
+            jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
+                    }
+            ));
+            DefaultTableModel model = (DefaultTableModel) jt_astronautas.getModel();
+            for (int i = 0; i < astronautas.size(); i++) {
+                String sexo = "";
+                if (astronautas.get(i).isSexo() == true) {
+                    sexo = "F";
+                } else {
+                    sexo = "M";
+                }
+
+                Object newrow[] = {astronautas.get(i), astronautas.get(i).getNacionalidad(),
+                    astronautas.get(i).getSueldo(), astronautas.get(i).getExperiencia(),
+                    sexo, astronautas.get(i).getPeso()};
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_astronautas.setModel(model);
+        } catch (Exception e) {
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -1028,6 +1289,8 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1041,9 +1304,16 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_naveExpedicion;
     private javax.swing.JComboBox<String> jcb_planeta;
     private javax.swing.JMenuItem jmi_EliminarA;
+    private javax.swing.JMenuItem jmi_distancia;
     private javax.swing.JMenuItem jmi_elimina;
-    private javax.swing.JMenuItem jmi_modificar;
-    private javax.swing.JMenuItem jmi_modificarA;
+    private javax.swing.JMenuItem jmi_experiencia;
+    private javax.swing.JMenuItem jmi_nacionalidad;
+    private javax.swing.JMenuItem jmi_nombre;
+    private javax.swing.JMenuItem jmi_nombreP;
+    private javax.swing.JMenuItem jmi_peso;
+    private javax.swing.JMenuItem jmi_sueldo;
+    private javax.swing.JMenuItem jmi_superficie;
+    private javax.swing.JMenuItem jmi_temperatura;
     private javax.swing.JPanel jp_planeta;
     private javax.swing.JProgressBar jpb_ida;
     private javax.swing.JProgressBar jpb_regreso;
