@@ -1219,7 +1219,7 @@ public class Main_Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
            JFileChooser jfc = new JFileChooser();
-            int seleccion = jfc.showSaveDialog(this); //finciona
+            int seleccion = jfc.showSaveDialog(this); //fincionak
 
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                 administrador a = new administrador(jfc.getSelectedFile().getPath()+".idm");
