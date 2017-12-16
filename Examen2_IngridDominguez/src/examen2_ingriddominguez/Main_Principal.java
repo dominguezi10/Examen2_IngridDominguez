@@ -37,6 +37,9 @@ public class Main_Principal extends javax.swing.JFrame {
         pop_opciones = new javax.swing.JPopupMenu();
         jmi_modificar = new javax.swing.JMenuItem();
         jmi_elimina = new javax.swing.JMenuItem();
+        pop_opcionesA = new javax.swing.JPopupMenu();
+        jmi_modificarA = new javax.swing.JMenuItem();
+        jmi_EliminarA = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jp_planeta = new javax.swing.JPanel();
@@ -108,7 +111,7 @@ public class Main_Principal extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jpb_regreso = new javax.swing.JProgressBar();
 
-        jmi_modificar.setText("jMenuItem1");
+        jmi_modificar.setText("modificar");
         pop_opciones.add(jmi_modificar);
 
         jmi_elimina.setText("Eliminar");
@@ -119,6 +122,17 @@ public class Main_Principal extends javax.swing.JFrame {
             }
         });
         pop_opciones.add(jmi_elimina);
+
+        jmi_modificarA.setText("Modificar");
+        pop_opcionesA.add(jmi_modificarA);
+
+        jmi_EliminarA.setText("Eliminar");
+        jmi_EliminarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_EliminarAActionPerformed(evt);
+            }
+        });
+        pop_opcionesA.add(jmi_EliminarA);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -484,6 +498,11 @@ public class Main_Principal extends javax.swing.JFrame {
                 "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
             }
         ));
+        jt_astronautas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_astronautasMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jt_astronautas);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -607,10 +626,10 @@ public class Main_Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{
-                    "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
-                }
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
+                    }
             ));
             DefaultTableModel model = (DefaultTableModel) jt_astronautas.getModel();
             for (int i = 0; i < astronautas.size(); i++) {
@@ -637,10 +656,10 @@ public class Main_Principal extends javax.swing.JFrame {
         try {
 
             jt_planetas.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{
-                    "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
-                }
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
+                    }
             ));
 
             DefaultTableModel model = (DefaultTableModel) jt_planetas.getModel();
@@ -836,8 +855,6 @@ public class Main_Principal extends javax.swing.JFrame {
             modelo.addElement(planetas.get(planetas.size() - 1));
             jcb_planeta.setModel(modelo);
 
-           
-
             System.out.println(planetas.get(planetas.size() - 1));
 
             tf_nombrePlaneta.setText("");
@@ -852,19 +869,19 @@ public class Main_Principal extends javax.swing.JFrame {
 
     private void jmi_eliminaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminaActionPerformed
         // TODO add your handling code here:
-         try {
-             int este = jt_planetas.getSelectedRow();
-             
-             planetas.remove(este);
-             DefaultComboBoxModel modelO = (DefaultComboBoxModel) jcb_planeta.getModel();
-             modelO.removeElementAt(este);
-             jcb_planeta.setModel(modelO);
-             
+        try {
+            int este = jt_planetas.getSelectedRow();
+
+            planetas.remove(este);
+            DefaultComboBoxModel modelO = (DefaultComboBoxModel) jcb_planeta.getModel();
+            modelO.removeElementAt(este);
+            jcb_planeta.setModel(modelO);
+
             jt_planetas.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{
-                    "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
-                }
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Temperatura", "Anillos", "Superficie", "Distancia"
+                    }
             ));
 
             DefaultTableModel model = (DefaultTableModel) jt_planetas.getModel();
@@ -887,6 +904,53 @@ public class Main_Principal extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jmi_eliminaActionPerformed
+
+    private void jt_astronautasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_astronautasMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1 && evt.isMetaDown()) {
+            int este = jt_astronautas.getSelectedRow();
+            if (este >= 0) {
+                pop_opcionesA.show(evt.getComponent(), evt.getX(), evt.getY());
+
+            }
+        }
+    }//GEN-LAST:event_jt_astronautasMouseClicked
+
+    private void jmi_EliminarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_EliminarAActionPerformed
+        // TODO add your handling code here:
+        try {
+            int este = jt_astronautas.getSelectedRow();
+            astronautas.remove(este);
+            DefaultComboBoxModel modelO = (DefaultComboBoxModel) jcb_astronautas.getModel();
+            modelO.removeElement(este);
+            jcb_astronautas.setModel(modelO);
+            
+            
+            jt_astronautas.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    new String[]{
+                        "Nombre", "Nacionalidad", "Sueldo", "Experiencia", "Sexo", "Peso"
+                    }
+            ));
+            DefaultTableModel model = (DefaultTableModel) jt_astronautas.getModel();
+            for (int i = 0; i < astronautas.size(); i++) {
+                String sexo = "";
+                if (astronautas.get(i).isSexo() == true) {
+                    sexo = "F";
+                } else {
+                    sexo = "M";
+                }
+
+                Object newrow[] = {astronautas.get(i), astronautas.get(i).getNacionalidad(),
+                    astronautas.get(i).getSueldo(), astronautas.get(i).getExperiencia(),
+                    sexo, astronautas.get(i).getPeso()};
+                model.addRow(newrow);
+            }// fin del for
+
+            jt_astronautas.setModel(model);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jmi_EliminarAActionPerformed
 
     /**
      * @param args the command line arguments
@@ -976,8 +1040,10 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcb_astronautas;
     private javax.swing.JComboBox<String> jcb_naveExpedicion;
     private javax.swing.JComboBox<String> jcb_planeta;
+    private javax.swing.JMenuItem jmi_EliminarA;
     private javax.swing.JMenuItem jmi_elimina;
     private javax.swing.JMenuItem jmi_modificar;
+    private javax.swing.JMenuItem jmi_modificarA;
     private javax.swing.JPanel jp_planeta;
     private javax.swing.JProgressBar jpb_ida;
     private javax.swing.JProgressBar jpb_regreso;
@@ -988,6 +1054,7 @@ public class Main_Principal extends javax.swing.JFrame {
     private javax.swing.JTable jt_astronautas;
     private javax.swing.JTable jt_planetas;
     private javax.swing.JPopupMenu pop_opciones;
+    private javax.swing.JPopupMenu pop_opcionesA;
     private javax.swing.JRadioButton sexoF;
     private javax.swing.JTextField tf_experiencia;
     private javax.swing.JTextField tf_lugarDespeje;
